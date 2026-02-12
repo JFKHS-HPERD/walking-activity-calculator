@@ -1,4 +1,7 @@
-// Walking Activity Calculator - JavaScript
+// Walking Activity Calculator v1.2
+// Last Updated: February 12, 2026
+// Changes: Fixed Average Steps per Minute formula to divide by 3 (three 1-minute intervals)
+
 document.getElementById('walkingForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -14,12 +17,13 @@ document.getElementById('walkingForm').addEventListener('submit', function(e) {
         return;
     }
     
-    // STEP 1: Calculate total steps from all three intervals (user input)
+    // STEP 1: Calculate total steps from all three 1-minute intervals (user input)
     const totalStepsCollected = step1 + step2 + step3;
     
     // STEP 2: Calculate Average Steps per Minute
-    // Formula: (Step 1 + Step 2 + Step 3) ÷ Total Walking Time
-    const averageStepsPerMinute = totalStepsCollected / walkingTime;
+    // Formula: (Step 1 + Step 2 + Step 3) ÷ 3
+    // NOTE: Divide by 3 because there are three 1-minute measurements
+    const averageStepsPerMinute = totalStepsCollected / 3;
     
     // STEP 3: Calculate Walking Speed (m/min)
     // Formula: Average Steps per Minute × Average Step Length (user input)
@@ -81,7 +85,7 @@ function validateInputs(step1, step2, step3, stepLength, walkingTime) {
 document.querySelectorAll('input[type="number"]').forEach(input => {
     input.addEventListener('input', function() {
         const errorElement = this.nextElementSibling;
-        if (errorElement && errorElement.classList.contains('error-message')) {
+        if (errorElement && errorElement.classList.compare('error-message')) {
             errorElement.style.display = 'none';
         }
     });
