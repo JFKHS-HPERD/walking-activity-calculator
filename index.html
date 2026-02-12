@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walking Activity Data Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            color: #667eea;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .results-section {
+            background: #f8f9ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-label {
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .result-value {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .unit {
+            color: #999;
+            font-size: 12px;
+            margin-left: 4px;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 4px;
+            display: none;
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .reset-btn {
+            background: #95a5a6;
+            margin-top: 10px;
+        }
+        
+        .reset-btn:hover {
+            background: #7f8c8d;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .info-box {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #2c3e50;
+        }
+        
+        @media (max-width: 500px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .result-value {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚶 Walking Activity Calculator</h1>
+        <p class="subtitle">PE Class Self-Correction Tool</p>
+        
+        <div class="info-box">
+            <strong>Instructions:</strong> Enter your three 1-minute step counts and average step length. The calculator will automatically compute all values.
+        </div>
+        
+        <form id="walkingForm">
+            <div class="form-section">
+                <div class="section-title">Step Count Data</div>
+                
+                <div class="form-group">
+                    <label for="step1">Step Count 1 (1 min)</label>
+                    <input type="number" id="step1" name="step1" min="0" placeholder="Enter number of steps" required>
+                    <div class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="step2">Step Count 2 (1 min)</label>
+                    <input type="number" id="step2" name="step2" min="0" placeholder="Enter number of steps" required>
+                    <div class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="step3">Step Count 3 (1 min)</label>
+                    <input type="number" id="step3" name="step3" min="0" placeholder="Enter number of steps" required>
+                    <div class="error-message"></div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <div class="section-title">Walking Metrics</div>
+                
+                <div class="form-group">
+                    <label for="stepLength">Average Step Length (m)</label>
+                    <input type="number" id="stepLength" name="stepLength" min="0" step="0.01" placeholder="Enter in meters (e.g., 0.65)" required>
+                    <div class="error-message"></div>
+                </div>
+            </div>
+            
+            <button type="submit">Calculate Results</button>
+            <button type="reset" class="reset-btn">Clear Form</button>
+        </form>
+        
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <div class="section-title">Your Results</div>
+            
+            <div class="result-item">
+                <span class="result-label">Average Steps per Minute</span>
+                <span class="result-value"><span id="avgSteps">0</span> <span class="unit">steps/min</span></span>
+            </div>
+            
+            <div class="result-item">
+                <span class="result-label">Walking Speed</span>
+                <span class="result-value"><span id="walkingSpeed">0</span> <span class="unit">m/min</span></span>
+            </div>
+            
+            <div class="result-item">
+                <span class="result-label">Distance Walked</span>
+                <span class="result-value"><span id="distance">0</span> <span class="unit">m</span></span>
+            </div>
+            
+            <div class="result-item">
+                <span class="result-label">Total Steps</span>
+                <span class="result-value"><span id="totalSteps">0</span> <span class="unit">steps</span></span>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
