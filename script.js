@@ -2,7 +2,7 @@
 document.getElementById('walkingForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // Get input values
+    // Get input values from user
     const step1 = parseFloat(document.getElementById('step1').value);
     const step2 = parseFloat(document.getElementById('step2').value);
     const step3 = parseFloat(document.getElementById('step3').value);
@@ -14,22 +14,23 @@ document.getElementById('walkingForm').addEventListener('submit', function(e) {
         return;
     }
     
-    // Calculate total steps from all three intervals
+    // STEP 1: Calculate total steps from all three intervals (user input)
     const totalStepsCollected = step1 + step2 + step3;
     
-    // Calculate Average Steps per Minute
+    // STEP 2: Calculate Average Steps per Minute
+    // Formula: (Step 1 + Step 2 + Step 3) ÷ Total Walking Time
     const averageStepsPerMinute = totalStepsCollected / walkingTime;
     
-    // Calculate Walking Speed (m/min)
-    // Formula: Average Steps per Minute × Average Step Length
+    // STEP 3: Calculate Walking Speed (m/min)
+    // Formula: Average Steps per Minute × Average Step Length (user input)
     const walkingSpeed = averageStepsPerMinute * stepLength;
     
-    // Calculate Distance Walked (m)
-    // Formula: Walking Speed × Total Walking Time
+    // STEP 4: Calculate Distance Walked (m)
+    // Formula: Walking Speed (from Step 3) × Total Walking Time (user input)
     const distanceWalked = walkingSpeed * walkingTime;
     
-    // Calculate Total Steps (verify calculation)
-    // Formula: Distance Walked ÷ Average Step Length
+    // STEP 5: Calculate Total Steps (verification)
+    // Formula: Distance Walked (from Step 4) ÷ Average Step Length (user input)
     const totalSteps = distanceWalked / stepLength;
     
     // Display results with 2 decimal places
