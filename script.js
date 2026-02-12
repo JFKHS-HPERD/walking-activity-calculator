@@ -7,27 +7,28 @@ document.getElementById('walkingForm').addEventListener('submit', function(e) {
     const step2 = parseFloat(document.getElementById('step2').value);
     const step3 = parseFloat(document.getElementById('step3').value);
     const stepLength = parseFloat(document.getElementById('stepLength').value);
+    const walkingTime = parseFloat(document.getElementById('walkingTime').value);
     
     // Validate inputs
-    if (!validateInputs(step1, step2, step3, stepLength)) {
+    if (!validateInputs(step1, step2, step3, stepLength, walkingTime)) {
         return;
     }
     
+    // Calculate total steps from all three intervals
+    const totalStepsCollected = step1 + step2 + step3;
+    
     // Calculate Average Steps per Minute
-    const averageStepsPerMinute = (step1 + step2 + step3) / 3;
+    const averageStepsPerMinute = totalStepsCollected / walkingTime;
     
     // Calculate Walking Speed (m/min)
     // Formula: Average Steps per Minute × Average Step Length
     const walkingSpeed = averageStepsPerMinute * stepLength;
     
-    // Total Walking Time is 3 minutes (three 1-minute intervals)
-    const totalWalkingTime = 3;
-    
     // Calculate Distance Walked (m)
     // Formula: Walking Speed × Total Walking Time
-    const distanceWalked = walkingSpeed * totalWalkingTime;
+    const distanceWalked = walkingSpeed * walkingTime;
     
-    // Calculate Total Steps
+    // Calculate Total Steps (verify calculation)
     // Formula: Distance Walked ÷ Average Step Length
     const totalSteps = distanceWalked / stepLength;
     
@@ -38,19 +39,20 @@ document.getElementById('walkingForm').addEventListener('submit', function(e) {
     document.getElementById('totalSteps').textContent = totalSteps.toFixed(2);
     
     // Show results section
-    document.getElementById('resultsSection').style.display = 'block';
+    document.getElementById('resultsSection').classList.add('show');
     
     // Scroll to results
     document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
 });
 
 // Input validation function
-function validateInputs(step1, step2, step3, stepLength) {
+function validateInputs(step1, step2, step3, stepLength, walkingTime) {
     const inputs = [
         { value: step1, element: document.getElementById('step1'), name: 'Step Count 1' },
         { value: step2, element: document.getElementById('step2'), name: 'Step Count 2' },
         { value: step3, element: document.getElementById('step3'), name: 'Step Count 3' },
-        { value: stepLength, element: document.getElementById('stepLength'), name: 'Average Step Length' }
+        { value: stepLength, element: document.getElementById('stepLength'), name: 'Average Step Length' },
+        { value: walkingTime, element: document.getElementById('walkingTime'), name: 'Total Walking Time' }
     ];
     
     let isValid = true;
@@ -62,7 +64,7 @@ function validateInputs(step1, step2, step3, stepLength) {
             errorElement.textContent = `${input.name} is required`;
             errorElement.style.display = 'block';
             isValid = false;
-        } else if (input.value < 0) {
+        } else if (input.value <= 0) {
             errorElement.textContent = `${input.name} must be positive`;
             errorElement.style.display = 'block';
             isValid = false;
